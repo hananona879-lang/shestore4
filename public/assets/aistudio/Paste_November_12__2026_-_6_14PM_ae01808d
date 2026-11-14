@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHE STORE | Official Online Store</title>
+  
+  <!-- خط عربي عصري وفخم -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+            brand: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #ffffff; color: #000000; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col antialiased selection:bg-black selection:text-white">
+
+  <!-- 1. شريط إعلاني مميز للبراند -->
+  <div class="bg-black text-white text-[11px] md:text-xs py-2 px-3 text-center tracking-wide font-normal flex items-center justify-center gap-2">
+    <span>✨ ستايلكِ بسعر المصنع مباشرة</span>
+    <span>•</span>
+    <span>حق المعاينة مع المندوب قبل الاستلام</span>
+    <span>•</span>
+    <span>شحن سريع لجميع محافظات مصر</span>
+  </div>
+
+  <!-- 2. الهيدر الرسمي لـ SHE STORE -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/10 px-4 md:px-10 py-3 flex items-center justify-between">
+    <!-- رابط الإنستجرام الخاص بالبزنس -->
+    <a 
+      href="https://www.instagram.com/she.store._eg" 
+      target="_blank" 
+      class="flex items-center gap-1.5 text-xs font-semibold hover:opacity-70 transition-opacity"
+      title="تابعونا على إنستجرام"
+    >
+      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+      <span class="hidden sm:inline font-brand font-medium">@she.store._eg</span>
+    </a>
+
+    <!-- شعار SHE STORE الرئيسي -->
+    <div class="text-center cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <h1 class="text-2xl md:text-3xl font-black tracking-[0.25em] font-brand uppercase">
+        S H E
+      </h1>
+      <p class="text-[9px] tracking-[0.35em] text-neutral-500 uppercase font-semibold -mt-0.5">
+        S T O R E • E G
+      </p>
+    </div>
+
+    <!-- زر حقيبة التسوق -->
+    <button onclick="toggleCart(true)" class="relative p-2 hover:opacity-75 transition-opacity" title="حقيبة التسوق">
+      <svg class="w-6 h-6 stroke-black fill-none stroke-2" viewBox="0 0 24 24">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <span id="cart-count" class="hidden absolute top-1 left-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+    </button>
+  </header>
+
+  <!-- بنر ترحيبي يعكس منتجات SHE STORE الحقيقية -->
+  <section class="border-b border-black/10 py-6 px-4 text-center bg-neutral-50/50">
+    <div class="inline-block bg-black text-white text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-widest mb-2">
+      New Drop 2025
+    </div>
+    <h2 class="text-xl md:text-2xl font-black tracking-tight text-neutral-900">
+      تشكيلة السوتات والأطقم الحريمي الأكثر طلباً
+    </h2>
+    <p class="text-xs text-neutral-500 mt-1 max-w-md mx-auto font-medium">
+      أعلى خامات قطن وريب محلي بأفضل سعر مباشر من مصنعنا ليكي بدون وسيط
+    </p>
+  </section>
+
+  <!-- 3. شبكة المنتجات (عمودين موبايل و 4 كمبيوتر بستايل إنستجرام) -->
+  <main class="max-w-7xl mx-auto w-full px-3 md:px-8 py-8 flex-1">
+    <div id="products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-7">
+      <!-- المنتجات تضاف بالجافاسكريبت أدناه -->
+    </div>
+  </main>
+
+  <!-- مميزات الشراء من SHE STORE -->
+  <section class="border-t border-b border-black/10 py-8 px-4 bg-neutral-50">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-xs">
+      <div class="p-3">
+        <h4 class="font-bold text-sm mb-1">🏷️ تصنيع مصري 100%</h4>
+        <p class="text-neutral-500">من المصنع ليكي مباشرة بدون عمولات ومصاريف محلات إضافية.</p>
+      </div>
+      <div class="p-3 border-y md:border-y-0 md:border-x border-black/10">
+        <h4 class="font-bold text-sm mb-1">🔍 عايني قبل الاستلام</h4>
+        <p class="text-neutral-500">افتحي الأوردر وشوفي الخامة والمقاس بنفسك مع المندوب قبل الدفع.</p>
+      </div>
+      <div class="p-3">
+        <h4 class="font-bold text-sm mb-1">⚡ شحن لجميع المحافظات</h4>
+        <p class="text-neutral-500">توصيل سريع لباب البيت والدفع دائماً عند الاستلام بكل أمان.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. نافذة تفاصيل المنتج واختيار اللون والمقاس (Product Modal) -->
+  <div id="product-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-2xl max-h-[92vh] overflow-y-auto border border-black relative flex flex-col md:flex-row shadow-2xl">
+      <button onclick="closeProductModal()" class="absolute top-3 left-3 z-20 bg-white border border-black/20 p-1.5 hover:bg-black hover:text-white transition-colors" title="إغلاق">
+        ✕
+      </button>
+
+      <!-- صورة اللون المختار -->
+      <div class="w-full md:w-1/2 aspect-[3/4] bg-neutral-100">
+        <img id="modal-img" src="" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- خيارات الطلب -->
+      <div class="w-full md:w-1/2 p-6 flex flex-col justify-between">
+        <div>
+          <span id="modal-badge" class="text-[10px] tracking-widest uppercase text-neutral-400 font-bold block mb-1"></span>
+          <h3 id="modal-title" class="text-xl font-extrabold mb-1.5"></h3>
+          <p id="modal-desc" class="text-xs text-neutral-500 mb-3"></p>
+          <p id="modal-price" class="text-lg font-black mb-5"></p>
+
+          <!-- الألوان المتاحة مع تغيير فوري للصورة -->
+          <div class="mb-5">
+            <div class="text-xs font-bold uppercase mb-2">
+              اللون: <span id="modal-color-name" class="font-normal text-neutral-600"></span>
+            </div>
+            <div id="modal-colors" class="flex gap-2.5"></div>
+          </div>
+
+          <!-- المقاسات (مخصصة بنظام أوزان ومقاسات SHE STORE) -->
+          <div class="mb-5">
+            <div class="text-xs font-bold uppercase mb-2">اختاري المقاس:</div>
+            <div id="modal-sizes" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <!-- الكمية -->
+          <div class="mb-6">
+            <div class="text-xs font-bold uppercase mb-2">الكمية:</div>
+            <div class="inline-flex items-center border border-black">
+              <button onclick="updateQty(-1)" class="px-3 py-1 font-bold hover:bg-neutral-100">-</button>
+              <span id="modal-qty" class="px-4 py-1 text-sm font-bold min-w-[30px] text-center">1</span>
+              <button onclick="updateQty(1)" class="px-3 py-1 font-bold hover:bg-neutral-100">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-4 border-t border-black/10">
+          <button onclick="instantBuy()" class="w-full bg-black text-white hover:bg-neutral-800 py-3 text-xs md:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+            <span>طلب فوري عبر واتساب</span>
+            <span>💬</span>
+          </button>
+          <button onclick="addToCartCurrent()" class="w-full bg-white text-black hover:bg-black hover:text-white border border-black py-2.5 text-xs font-bold uppercase tracking-wider transition-colors">
+            إضافة إلى حقيبة التسوق
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. درج السلة الجانبي (Cart Drawer) -->
+  <div id="cart-drawer" class="hidden fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-md h-full flex flex-col justify-between shadow-2xl p-6 border-r border-black animate-slideLeft">
+      <div class="flex items-center justify-between pb-4 border-b border-black">
+        <div class="flex items-center gap-2">
+          <h3 class="font-extrabold tracking-widest text-sm uppercase">حقيبة المشتريات</h3>
+          <span class="text-xs text-neutral-400">SHE STORE</span>
+        </div>
+        <button onclick="toggleCart(false)" class="p-1 hover:rotate-90 transition-transform">✕</button>
+      </div>
+
+      <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-4 no-scrollbar"></div>
+
+      <div id="cart-footer" class="pt-4 border-t border-black space-y-3">
+        <div class="flex justify-between items-center text-base font-black">
+          <span>المجموع الكلي:</span>
+          <span id="cart-total-price">0 ج.م</span>
+        </div>
+        <button onclick="openCheckoutModal(false)" class="w-full bg-black text-white hover:bg-neutral-900 py-3 text-xs md:text-sm font-bold uppercase tracking-wider">
+          متابعة تأكيد الأوردر
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. استمارة إتمام الطلب والتحويل للواتساب (201115010812) -->
+  <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-lg border border-black p-6 relative">
+      <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 p-1 hover:opacity-60">✕</button>
+      
+      <div class="text-center mb-4">
+        <h3 class="text-lg font-black tracking-wide uppercase">تأكيد أوردر SHE STORE</h3>
+        <p class="text-xs text-neutral-500 mt-0.5">ادخلي بيانات الشحن لتحويلك فوراً لمحادثة الواتساب لتأكيد الاستلام</p>
+      </div>
+
+      <form onsubmit="handleSendWhatsApp(event)" class="space-y-3 text-xs md:text-sm">
+        <div>
+          <label class="block font-bold mb-1">الاسم ثلاثي *</label>
+          <input id="form-name" required type="text" placeholder="مثال: ياسمين أحمد" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1">رقم الموبايل (واتساب فعال) *</label>
+          <input id="form-phone" required type="tel" placeholder="010XXXXXXXX أو 011XXXXXXXX" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold mb-1">المحافظة *</label>
+            <select id="form-gov" class="w-full border border-neutral-300 p-2.5 bg-white focus:outline-none focus:border-black">
+              <option value="القاهرة">القاهرة</option>
+              <option value="الجيزة">الجيزة</option>
+              <option value="الإسكندرية">الإسكندرية</option>
+              <option value="دمياط">دمياط</option>
+              <option value="الدقهلية - المنصورة">الدقهلية - المنصورة</option>
+              <option value="الشرقية - الزقازيق">الشرقية - الزقازيق</option>
+              <option value="الغربية - طنطا">الغربية - طنطا</option>
+              <option value="القليوبية">القليوبية</option>
+              <option value="البحيرة">البحيرة</option>
+              <option value="محافظة أخرى">محافظة أخرى</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1">المنطقة والحي *</label>
+            <input id="form-address" required type="text" placeholder="المنطقة والشارع بالتفصيل" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1">ملاحظات للمندوب أو مقاسات خاصة</label>
+          <input id="form-notes" type="text" placeholder="مثال: مواعيد الاستلام المناسبة، رقم شقة..." class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" />
+        </div>
+
+        <div class="bg-neutral-50 p-3 border border-neutral-200 mt-2 flex justify-between items-center text-sm">
+          <span class="font-bold">المطلوب دفعه عند الاستلام (شامل المعاينة):</span>
+          <span id="checkout-amount" class="font-black text-base">0 ج.م</span>
+        </div>
+
+        <button type="submit" class="w-full bg-black text-white hover:bg-neutral-800 py-3 text-xs md:text-sm font-bold uppercase tracking-widest mt-4 flex items-center justify-center gap-2">
+          <span>إرسال وتأكيد الطلب على واتساب</span>
+          <span>⚡</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. الفوتر الرسمي لـ SHE STORE -->
+  <footer class="border-t border-black/10 py-10 px-4 text-center mt-auto bg-white">
+    <h4 class="text-2xl font-black tracking-[0.25em] font-brand uppercase mb-1">S H E &bull; S T O R E</h4>
+    <p class="text-xs text-neutral-400 tracking-wider mb-4">براند مصري للملابس الحريمي والسوتات العصرية بسعر المصنع مباشرة</p>
+    
+    <div class="flex justify-center items-center gap-4 text-xs font-medium text-neutral-700 mb-6">
+      <a href="https://www.instagram.com/she.store._eg" target="_blank" class="hover:underline flex items-center gap-1">
+        <span>إنستجرام: @she.store._eg</span>
+      </a>
+      <span>•</span>
+      <a href="https://wa.me/201115010812" target="_blank" class="hover:underline font-bold text-black">
+        واتساب: 01115010812
+      </a>
+    </div>
+
+    <p class="text-[11px] text-neutral-400">جميع الحقوق محفوظة © 2025 SHE STORE EG</p>
+  </footer>
+
+  <!-- بيانات المنتجات والبرمجة بالكامل -->
+  <script>
+    const WHATSAPP_PHONE = "201115010812";
+
+    // قائمة منتجات واقعية مطابقة لتشكيلة SHE STORE الحقيقية
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: "سوت ريب قطن بريميوم (2 قطع)",
+        badge: "الأكثر مبيعاً ⭐",
+        desc: "طقم ريب قطن فاخر ناعم جداً على الجسم مع بنطلون مريح وواسع.",
+        price: 550,
+        sizes: ["مقاس 1 (من 50 لـ 80 كجم)", "مقاس 2 (من 80 لـ 110 كجم)"],
+        variants: [
+          { colorName: "بيج ترابي", hex: "#CDBFA8", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "أسود ملكي", hex: "#000000", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "أوف وايت كريمي", hex: "#F6F5EE", image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=900&auto=format&fit=crop" }
+        ]
+      },
+      {
+        id: 2,
+        name: "أوبن كوت كاجوال واسع (Open Coat)",
+        badge: "خامة ثقيلة ممتازة",
+        desc: "كوت شيك جداً بتطريز راقي يناسب الخروج والجامعة والمناسبات اليومية.",
+        price: 650,
+        sizes: ["Free Size (يلبس حتى 95 كجم)", "Oversized (يلبس حتى 120 كجم)"],
+        variants: [
+          { colorName: "بيج كلاسيك", hex: "#D4C5B3", image: "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "أسود داكن", hex: "#111111", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "زيتي غامق", hex: "#3A453B", image: "https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?q=80&w=900&auto=format&fit=crop" }
+        ]
+      },
+      {
+        id: 3,
+        name: "Zara Set كاجوال أوفرسايز",
+        badge: "تصميم تريند",
+        desc: "سوت أنيقة واسعة مستوحاة من ستايل زارا مناسبة للمحجبات وغير المحجبات.",
+        price: 590,
+        sizes: ["M", "L", "XL", "XXL"],
+        variants: [
+          { colorName: "شوكولاتة دافئة", hex: "#4A3528", image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "كحلي غامق", hex: "#1E2A38", image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "رمادي هيدر", hex: "#9E9E9E", image: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?q=80&w=900&auto=format&fit=crop" }
+        ]
+      },
+      {
+        id: 4,
+        name: "بنطلون ميلتون كارجو ستريت",
+        badge: "قطن مصري",
+        desc: "بنطلون ميلتون مريح برباط وجيوب كارجو عملية جداً للمشاوير والجامعة.",
+        price: 450,
+        sizes: ["مقاس 1 (من 50 لـ 80 كجم)", "مقاس 2 (من 80 لـ 110 كجم)"],
+        variants: [
+          { colorName: "أسود مطفي", hex: "#0A0A0A", image: "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?q=80&w=900&auto=format&fit=crop" },
+          { colorName: "بيج ترابي", hex: "#C7B8A1", image: "https://images.unsplash.com/photo-1551803091-e20673f15770?q=80&w=900&auto=format&fit=crop" }
+        ]
+      }
+    ];
+
+    let currentSelectedVariants = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    let cart = [];
+    let modalProduct = null;
+    let modalVariantIndex = 0;
+    let modalSelectedSize = "";
+    let modalQuantity = 1;
+    let directOrderItem = null;
+
+    // عرض المنتجات في الصفحة الرئيسية
+    function renderProducts() {
+      const container = document.getElementById("products-grid");
+      container.innerHTML = PRODUCTS.map(p => {
+        const vIdx = currentSelectedVariants[p.id];
+        const v = p.variants[vIdx];
+
+        const dots = p.variants.map((variant, i) => `
+          <button 
+            onclick="switchCardColor(${p.id}, ${i})" 
+            title="${variant.colorName}"
+            style="background-color: ${variant.hex};"
+            class="w-3.5 h-3.5 rounded-full border transition-all ${
+              vIdx === i ? 'ring-2 ring-black ring-offset-2 scale-110 border-transparent' : 'border-neutral-400 opacity-60 hover:opacity-100'
+            }"
+          ></button>
+        `).join("");
+
+        return `
+          <div class="group flex flex-col bg-white">
+            <div onclick="openProductModal(${p.id})" class="relative aspect-[3/4] w-full overflow-hidden bg-neutral-100 cursor-pointer mb-2.5">
+              <img id="p-img-${p.id}" src="${v.image}" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+              <span class="absolute top-2 right-2 bg-black text-white text-[9px] font-bold px-2 py-0.5 tracking-wider">
+                ${p.badge}
+              </span>
+            </div>
+
+            <!-- دوائر الألوان تحت الصورة وتغيير اسم اللون والصورة مباشرة -->
+            <div class="flex items-center gap-1.5 mb-1.5 px-0.5">
+              ${dots}
+              <span id="p-color-name-${p.id}" class="text-[11px] text-neutral-600 mr-2 font-medium">${v.colorName}</span>
+            </div>
+
+            <div class="px-0.5 flex flex-col flex-1 justify-between">
+              <div>
+                <h3 onclick="openProductModal(${p.id})" class="font-bold text-xs md:text-sm leading-snug cursor-pointer hover:underline text-neutral-900">${p.name}</h3>
+                <p class="text-[10px] text-neutral-400 mt-0.5 line-clamp-1">${p.desc}</p>
+              </div>
+
+              <div class="flex items-center justify-between mt-2.5 pt-2 border-t border-black/5">
+                <span class="font-black text-xs md:text-sm tracking-tight text-black">${p.price} <span class="text-[10px] font-normal">ج.م</span></span>
+                <button onclick="openProductModal(${p.id})" class="text-xs bg-black text-white hover:bg-neutral-800 transition-colors px-3 py-1 font-semibold">
+                  طلب
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // تبديل اللون والصورة مباشرة
+    function switchCardColor(prodId, varIdx) {
+      currentSelectedVariants[prodId] = varIdx;
+      const product = PRODUCTS.find(p => p.id === prodId);
+      const variant = product.variants[varIdx];
+      document.getElementById(`p-img-${prodId}`).src = variant.image;
+      document.getElementById(`p-color-name-${prodId}`).innerText = variant.colorName;
+      renderProducts();
+    }
+
+    // فتح نافذة المنتج
+    function openProductModal(prodId) {
+      modalProduct = PRODUCTS.find(p => p.id === prodId);
+      modalVariantIndex = currentSelectedVariants[prodId];
+      modalSelectedSize = modalProduct.sizes[0];
+      modalQuantity = 1;
+      updateModalUI();
+      document.getElementById("product-modal").classList.remove("hidden");
+    }
+
+    function closeProductModal() {
+      document.getElementById("product-modal").classList.add("hidden");
+    }
+
+    function updateModalUI() {
+      const v = modalProduct.variants[modalVariantIndex];
+      document.getElementById("modal-img").src = v.image;
+      document.getElementById("modal-badge").innerText = modalProduct.badge;
+      document.getElementById("modal-title").innerText = modalProduct.name;
+      document.getElementById("modal-desc").innerText = modalProduct.desc;
+      document.getElementById("modal-price").innerText = `${modalProduct.price} جنيه مصري (سعر المصنع)`;
+      document.getElementById("modal-color-name").innerText = v.colorName;
+      document.getElementById("modal-qty").innerText = modalQuantity;
+
+      // ألوان المودال
+      document.getElementById("modal-colors").innerHTML = modalProduct.variants.map((vr, i) => `
+        <button onclick="selectModalVariant(${i})" style="background-color: ${vr.hex};" class="w-6 h-6 rounded-full border transition-all ${
+          modalVariantIndex === i ? 'ring-2 ring-black ring-offset-2 scale-110 border-transparent' : 'border-neutral-400 opacity-60'
+        }"></button>
+      `).join("");
+
+      // مقاسات المودال
+      document.getElementById("modal-sizes").innerHTML = modalProduct.sizes.map(sz => `
+        <button onclick="selectModalSize('${sz}')" class="px-3 h-8 text-xs font-semibold border transition-all ${
+          modalSelectedSize === sz ? 'bg-black text-white border-black' : 'bg-white text-black border-neutral-300 hover:border-black'
+        }">${sz}</button>
+      `).join("");
+    }
+
+    function selectModalVariant(idx) {
+      modalVariantIndex = idx;
+      updateModalUI();
+    }
+
+    function selectModalSize(sz) {
+      modalSelectedSize = sz;
+      updateModalUI();
+    }
+
+    function updateQty(delta) {
+      modalQuantity = Math.max(1, modalQuantity + delta);
+      document.getElementById("modal-qty").innerText = modalQuantity;
+    }
+
+    // إضافة إلى الحقيبة
+    function addToCartCurrent() {
+      const v = modalProduct.variants[modalVariantIndex];
+      const cartId = `${modalProduct.id}-${modalVariantIndex}-${modalSelectedSize}`;
+      const existing = cart.find(item => item.id === cartId);
+
+      if (existing) {
+        existing.quantity += modalQuantity;
+      } else {
+        cart.push({
+          id: cartId,
+          name: modalProduct.name,
+          color: v.colorName,
+          size: modalSelectedSize,
+          price: modalProduct.price,
+          quantity: modalQuantity,
+          image: v.image
+        });
+      }
+
+      closeProductModal();
+      updateCartUI();
+      toggleCart(true);
+    }
+
+    // طلب فوري
+    function instantBuy() {
+      const v = modalProduct.variants[modalVariantIndex];
+      directOrderItem = {
+        name: modalProduct.name,
+        color: v.colorName,
+        size: modalSelectedSize,
+        price: modalProduct.price,
+        quantity: modalQuantity
+      };
+      closeProductModal();
+      openCheckoutModal(true);
+    }
+
+    // إدارة السلة
+    function toggleCart(show) {
+      const drawer = document.getElementById("cart-drawer");
+      if (show) drawer.classList.remove("hidden");
+      else drawer.classList.add("hidden");
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((s, i) => s + i.quantity, 0);
+      const countEl = document.getElementById("cart-count");
+      if (count > 0) {
+        countEl.innerText = count;
+        countEl.classList.remove("hidden");
+      } else {
+        countEl.classList.add("hidden");
+      }
+
+      const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+      document.getElementById("cart-total-price").innerText = `${total} ج.م`;
+
+      const list = document.getElementById("cart-items");
+      if (cart.length === 0) {
+        list.innerHTML = `<div class="text-center py-20 text-neutral-400 text-xs">حقيبة التسوق فارغة</div>`;
+      } else {
+        list.innerHTML = cart.map((it, idx) => `
+          <div class="flex gap-3 border-b border-neutral-100 pb-3 items-center">
+            <img src="${it.image}" class="w-14 h-16 object-cover border" />
+            <div class="flex-1 text-xs">
+              <h4 class="font-bold">${it.name}</h4>
+              <p class="text-neutral-500">${it.color} | ${it.size}</p>
+              <p class="text-neutral-400">الكمية: ${it.quantity}</p>
+              <p class="font-extrabold mt-0.5">${it.price * it.quantity} ج.م</p>
+            </div>
+            <button onclick="removeFromCart(${idx})" class="text-neutral-400 hover:text-black font-bold p-1">✕</button>
+          </div>
+        `).join("");
+      }
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      updateCartUI();
+    }
+
+    // الشيك أوت
+    function openCheckoutModal(isDirect) {
+      toggleCart(false);
+      const modal = document.getElementById("checkout-modal");
+      let total = 0;
+      if (isDirect && directOrderItem) {
+        total = directOrderItem.price * directOrderItem.quantity;
+      } else {
+        directOrderItem = null;
+        total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+      }
+      document.getElementById("checkout-amount").innerText = `${total} ج.م`;
+      modal.classList.remove("hidden");
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkout-modal").classList.add("hidden");
+    }
+
+    // إرسال وتنسيق الرسالة على واتساب (01115010812)
+    function handleSendWhatsApp(e) {
+      e.preventDefault();
+      const name = document.getElementById("form-name").value;
+      const phone = document.getElementById("form-phone").value;
+      const gov = document.getElementById("form-gov").value;
+      const address = document.getElementById("form-address").value;
+      const notes = document.getElementById("form-notes").value;
+
+      let items = directOrderItem ? [directOrderItem] : [...cart];
+      let total = items.reduce((s, i) => s + (i.price * i.quantity), 0);
+
+      let msg = `*طلب جديد من متجر SHE STORE EG* 🛍️✨\n`;
+      msg += `(من حساب الإنستجرام: instagram.com/she.store._eg)\n`;
+      msg += `────────────────────\n`;
+      msg += `👤 *بيانات العميل للشحن:*\n`;
+      msg += `• الاسم: ${name}\n`;
+      msg += `• رقم الموبايل: ${phone}\n`;
+      msg += `• المحافظة: ${gov}\n`;
+      msg += `• العنوان بالتفصيل: ${address}\n`;
+      if (notes) msg += `• ملاحظات المقاس/المندوب: ${notes}\n`;
+      msg += `────────────────────\n`;
+      msg += `👗 *القطع المطلوبة:*\n\n`;
+
+      items.forEach((it, idx) => {
+        msg += `${idx + 1}. *${it.name}*\n`;
+        msg += `   - اللون المختار: ${it.color}\n`;
+        msg += `   - المقاس: ${it.size}\n`;
+        msg += `   - الكمية: ${it.quantity}\n`;
+        msg += `   - السعر: ${it.price * it.quantity} ج.م\n\n`;
+      });
+
+      msg += `────────────────────\n`;
+      msg += `💰 *إجمالي الأوردر:* ${total} ج.م\n`;
+      msg += `🚚 الدفع عند الاستلام مع حق المعاينة قبل الدفع`;
+
+      const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+
+      closeCheckoutModal();
+      if (!directOrderItem) {
+        cart = [];
+        updateCartUI();
+      }
+    }
+
+    // تشغيل الصفحة
+    renderProducts();
+    updateCartUI();
+  </script>
+</body>
+</html>

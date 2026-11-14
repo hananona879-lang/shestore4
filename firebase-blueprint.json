@@ -1,0 +1,241 @@
+{
+  "entities": {
+    "FeedbackScreenshot": {
+      "title": "FeedbackScreenshot",
+      "description": "Published customer review screenshot shown on the storefront gallery",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "image": {
+          "type": "string",
+          "description": "Compressed image data URL or hosted URL",
+          "maxLength": 800000
+        },
+        "customerName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "productName": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "caption": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "published": {
+          "type": "boolean"
+        },
+        "ownerId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdAtMs": {
+          "type": "number"
+        }
+      },
+      "required": ["id", "image", "published", "ownerId", "createdAt", "createdAtMs"]
+    },
+    "StoreProduct": {
+      "title": "StoreProduct",
+      "description": "Store catalog product with bilingual copy and per-variant inventory",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "nameAr": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "badge": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "badgeAr": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "desc": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "descAr": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "fabric": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "fabricAr": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "price": {
+          "type": "number"
+        },
+        "originalPrice": {
+          "type": "number"
+        },
+        "sizes": {
+          "type": "array"
+        },
+        "sizesAr": {
+          "type": "array"
+        },
+        "variants": {
+          "type": "array"
+        },
+        "isNewDrop": {
+          "type": "boolean"
+        },
+        "trackStock": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "number"
+        }
+      },
+      "required": ["id", "active", "name", "category", "price", "sizes", "variants", "updatedAt"]
+    },
+    "StoreOrder": {
+      "title": "StoreOrder",
+      "description": "Customer order record containing PII accessible only to authenticated admins",
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "customer": {
+          "type": "object"
+        },
+        "items": {
+          "type": "array"
+        },
+        "subtotal": {
+          "type": "number"
+        },
+        "shippingCost": {
+          "type": "number"
+        },
+        "deliveryTime": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "total": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed", "shipped", "delivered", "cancelled"]
+        },
+        "ownerNotified": {
+          "type": "boolean"
+        },
+        "notificationChannels": {
+          "type": "array"
+        },
+        "stockDeducted": {
+          "type": "boolean"
+        },
+        "ownerId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "updatedAt": {
+          "type": "number"
+        }
+      },
+      "required": ["orderNumber", "customer", "items", "total", "date", "status", "ownerId"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized store administrator document",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"]
+        }
+      },
+      "required": ["email", "role"]
+    },
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Private admin-only store notification settings including Telegram bot credentials",
+      "type": "object",
+      "properties": {
+        "adminPhone": { "type": "string", "maxLength": 40 },
+        "instaHandle": { "type": "string", "maxLength": 80 },
+        "adminPassword": { "type": "string", "maxLength": 120 },
+        "telegramBotToken": { "type": "string", "maxLength": 200 },
+        "telegramChatId": { "type": "string", "maxLength": 300 },
+        "callmebotPhone": { "type": "string", "maxLength": 40 },
+        "callmebotApiKey": { "type": "string", "maxLength": 200 },
+        "textmebotApiKey": { "type": "string", "maxLength": 200 },
+        "ultramsgInstanceId": { "type": "string", "maxLength": 120 },
+        "ultramsgToken": { "type": "string", "maxLength": 200 },
+        "metaWhatsappPhoneId": { "type": "string", "maxLength": 120 },
+        "metaWhatsappToken": { "type": "string", "maxLength": 400 },
+        "webhookUrl": { "type": "string", "maxLength": 500 },
+        "ownerEmail": { "type": "string", "maxLength": 160 },
+        "resendApiKey": { "type": "string", "maxLength": 200 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["adminPhone", "telegramBotToken", "telegramChatId", "ownerId", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/feedbacks/{feedbackId}": {
+      "schema": { "$ref": "#/entities/FeedbackScreenshot" },
+      "description": "Publicly viewable published feedback screenshots; admin-only create/update/delete"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/StoreProduct" },
+      "description": "Active store products and inventory synced to Firestore; admin-only write"
+    },
+    "/orders/{orderNumber}": {
+      "schema": { "$ref": "#/entities/StoreOrder" },
+      "description": "Admin-only backed-up customer orders (contains PII)"
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Admin role allowlist documents"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/StoreSettings" },
+      "description": "Admin-only store configuration and Telegram/notification credentials"
+    }
+  }
+}

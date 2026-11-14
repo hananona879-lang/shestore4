@@ -1,0 +1,200 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isVerified() && (
+        request.auth.token.email == 'tawapeer@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['id', 'image', 'published', 'ownerId', 'createdAt', 'createdAtMs']) &&
+        data.keys().hasOnly(['id', 'image', 'customerName', 'productName', 'caption', 'published', 'ownerId', 'createdAt', 'createdAtMs']) &&
+        isValidId(data.id) &&
+        data.image is string && data.image.size() >= 1 && data.image.size() <= 800000 &&
+        data.published is bool &&
+        data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 &&
+        data.createdAt is string && data.createdAt.size() >= 1 && data.createdAt.size() <= 64 &&
+        data.createdAtMs is number && data.createdAtMs > 0 &&
+        (!('customerName' in data) || (data.customerName is string && data.customerName.size() <= 120)) &&
+        (!('productName' in data) || (data.productName is string && data.productName.size() <= 160)) &&
+        (!('caption' in data) || (data.caption is string && data.caption.size() <= 500));
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['id', 'active', 'name', 'category', 'price', 'sizes', 'variants', 'updatedAt']) &&
+        data.keys().hasOnly([
+          'id', 'active', 'name', 'nameAr', 'category', 'badge', 'badgeAr',
+          'desc', 'descAr', 'fabric', 'fabricAr', 'price', 'originalPrice',
+          'sizes', 'sizesAr', 'variants', 'isNewDrop', 'trackStock', 'updatedAt'
+        ]) &&
+        data.id is number && data.id >= 1 &&
+        data.active is bool &&
+        data.name is string && data.name.size() >= 1 && data.name.size() <= 200 &&
+        data.category is string && data.category.size() >= 1 && data.category.size() <= 100 &&
+        data.price is number && data.price >= 0 &&
+        data.sizes is list && data.sizes.size() >= 1 && data.sizes.size() <= 20 && data.sizes[0] is string &&
+        data.variants is list && data.variants.size() >= 1 && data.variants.size() <= 25 && data.variants[0] is map &&
+        data.updatedAt is number && data.updatedAt > 0 &&
+        (!('nameAr' in data) || (data.nameAr is string && data.nameAr.size() <= 200)) &&
+        (!('badge' in data) || (data.badge is string && data.badge.size() <= 120)) &&
+        (!('badgeAr' in data) || (data.badgeAr is string && data.badgeAr.size() <= 120)) &&
+        (!('desc' in data) || (data.desc is string && data.desc.size() <= 2000)) &&
+        (!('descAr' in data) || (data.descAr is string && data.descAr.size() <= 2000)) &&
+        (!('fabric' in data) || (data.fabric is string && data.fabric.size() <= 400)) &&
+        (!('fabricAr' in data) || (data.fabricAr is string && data.fabricAr.size() <= 400)) &&
+        (!('originalPrice' in data) || data.originalPrice is number) &&
+        (!('sizesAr' in data) || (data.sizesAr is list && data.sizesAr.size() <= 20 && (data.sizesAr.size() == 0 || data.sizesAr[0] is string))) &&
+        (!('isNewDrop' in data) || data.isNewDrop is bool) &&
+        (!('trackStock' in data) || data.trackStock is bool);
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['orderNumber', 'customer', 'items', 'total', 'date', 'status', 'ownerId']) &&
+        data.keys().hasOnly([
+          'orderNumber', 'customer', 'items', 'subtotal', 'shippingCost', 'deliveryTime',
+          'total', 'date', 'status', 'ownerNotified', 'notificationChannels', 'stockDeducted',
+          'ownerId', 'updatedAt'
+        ]) &&
+        isValidId(data.orderNumber) &&
+        data.customer is map &&
+        data.items is list && data.items.size() >= 1 && data.items.size() <= 50 && data.items[0] is map &&
+        data.total is number && data.total >= 0 &&
+        data.date is string && data.date.size() >= 1 && data.date.size() <= 64 &&
+        data.status in ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'] &&
+        data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 &&
+        (!('subtotal' in data) || data.subtotal is number) &&
+        (!('shippingCost' in data) || data.shippingCost is number) &&
+        (!('deliveryTime' in data) || (data.deliveryTime is string && data.deliveryTime.size() <= 120)) &&
+        (!('ownerNotified' in data) || data.ownerNotified is bool) &&
+        (!('notificationChannels' in data) || (data.notificationChannels is list && data.notificationChannels.size() <= 10)) &&
+        (!('stockDeducted' in data) || data.stockDeducted is bool) &&
+        (!('updatedAt' in data) || data.updatedAt is number);
+    }
+
+    match /admins/{adminUid} {
+      allow get: if isValidId(adminUid) && isVerified() && (
+        request.auth.uid == adminUid || request.auth.token.email == 'tawapeer@gmail.com'
+      );
+      allow list: if false;
+      allow create, update, delete: if isValidId(adminUid) && isVerified() && request.auth.token.email == 'tawapeer@gmail.com' &&
+        incoming().keys().hasAll(['email', 'role']) &&
+        incoming().keys().hasOnly(['email', 'role']) &&
+        incoming().email is string && incoming().email.size() <= 160 &&
+        incoming().role == 'admin';
+    }
+
+    match /feedbacks/{feedbackId} {
+      allow get: if isValidId(feedbackId) && (resource.data.published == true || isAdmin());
+      allow list: if resource.data.published == true || isAdmin();
+      allow create: if isValidId(feedbackId) && isAdmin() && isValidFeedback(incoming()) &&
+        incoming().id == feedbackId &&
+        incoming().ownerId == request.auth.uid;
+      allow update: if isValidId(feedbackId) && isAdmin() && isValidFeedback(incoming()) &&
+        incoming().id == existing().id &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().createdAtMs == existing().createdAtMs &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['image', 'customerName', 'productName', 'caption', 'published']);
+      allow delete: if isValidId(feedbackId) && isAdmin();
+    }
+
+    match /products/{productId} {
+      allow get: if isValidId(productId) && (resource.data.active == true || isAdmin());
+      allow list: if resource.data.active == true || isAdmin();
+      allow create: if isValidId(productId) && isAdmin() && isValidProduct(incoming());
+      allow update: if isValidId(productId) && isAdmin() && isValidProduct(incoming()) &&
+        incoming().id == existing().id &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'active', 'name', 'nameAr', 'category', 'badge', 'badgeAr',
+          'desc', 'descAr', 'fabric', 'fabricAr', 'price', 'originalPrice',
+          'sizes', 'sizesAr', 'variants', 'isNewDrop', 'trackStock', 'updatedAt'
+        ]);
+      allow delete: if isValidId(productId) && isAdmin();
+    }
+
+    function isValidSettings(data) {
+      return data.keys().hasAll(['adminPhone', 'telegramBotToken', 'telegramChatId', 'ownerId', 'updatedAt']) &&
+        data.keys().hasOnly([
+          'adminPhone', 'instaHandle', 'adminPassword', 'telegramBotToken', 'telegramChatId',
+          'callmebotPhone', 'callmebotApiKey', 'textmebotApiKey', 'ultramsgInstanceId',
+          'ultramsgToken', 'metaWhatsappPhoneId', 'metaWhatsappToken', 'webhookUrl',
+          'ownerEmail', 'resendApiKey', 'ownerId', 'updatedAt'
+        ]) &&
+        data.adminPhone is string && data.adminPhone.size() <= 40 &&
+        data.telegramBotToken is string && data.telegramBotToken.size() <= 200 &&
+        data.telegramChatId is string && data.telegramChatId.size() <= 300 &&
+        data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 &&
+        data.updatedAt is number && data.updatedAt > 0 &&
+        (!('instaHandle' in data) || (data.instaHandle is string && data.instaHandle.size() <= 80)) &&
+        (!('adminPassword' in data) || (data.adminPassword is string && data.adminPassword.size() <= 120)) &&
+        (!('callmebotPhone' in data) || (data.callmebotPhone is string && data.callmebotPhone.size() <= 40)) &&
+        (!('callmebotApiKey' in data) || (data.callmebotApiKey is string && data.callmebotApiKey.size() <= 200)) &&
+        (!('textmebotApiKey' in data) || (data.textmebotApiKey is string && data.textmebotApiKey.size() <= 200)) &&
+        (!('ultramsgInstanceId' in data) || (data.ultramsgInstanceId is string && data.ultramsgInstanceId.size() <= 120)) &&
+        (!('ultramsgToken' in data) || (data.ultramsgToken is string && data.ultramsgToken.size() <= 200)) &&
+        (!('metaWhatsappPhoneId' in data) || (data.metaWhatsappPhoneId is string && data.metaWhatsappPhoneId.size() <= 120)) &&
+        (!('metaWhatsappToken' in data) || (data.metaWhatsappToken is string && data.metaWhatsappToken.size() <= 400)) &&
+        (!('webhookUrl' in data) || (data.webhookUrl is string && data.webhookUrl.size() <= 500)) &&
+        (!('ownerEmail' in data) || (data.ownerEmail is string && data.ownerEmail.size() <= 160)) &&
+        (!('resendApiKey' in data) || (data.resendApiKey is string && data.resendApiKey.size() <= 200));
+    }
+
+    match /settings/{settingId} {
+      allow get: if isValidId(settingId) && isAdmin();
+      allow list: if false;
+      allow create: if isValidId(settingId) && isAdmin() && isValidSettings(incoming()) &&
+        incoming().ownerId == request.auth.uid;
+      allow update: if isValidId(settingId) && isAdmin() && isValidSettings(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'adminPhone', 'instaHandle', 'adminPassword', 'telegramBotToken', 'telegramChatId',
+          'callmebotPhone', 'callmebotApiKey', 'textmebotApiKey', 'ultramsgInstanceId',
+          'ultramsgToken', 'metaWhatsappPhoneId', 'metaWhatsappToken', 'webhookUrl',
+          'ownerEmail', 'resendApiKey', 'updatedAt'
+        ]);
+      allow delete: if isValidId(settingId) && isAdmin();
+    }
+
+    match /orders/{orderNumber} {
+      allow get: if isValidId(orderNumber) && isAdmin();
+      allow list: if isAdmin() && resource.data.ownerId is string;
+      allow create: if isValidId(orderNumber) && isAdmin() && isValidOrder(incoming()) &&
+        incoming().orderNumber == orderNumber &&
+        incoming().ownerId == request.auth.uid;
+      allow update: if isValidId(orderNumber) && isAdmin() && isValidOrder(incoming()) &&
+        incoming().orderNumber == existing().orderNumber &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'status', 'ownerNotified', 'notificationChannels', 'stockDeducted', 'updatedAt'
+        ]);
+      allow delete: if isValidId(orderNumber) && isAdmin();
+    }
+  }
+}

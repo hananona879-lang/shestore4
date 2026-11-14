@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix SHE STORE | المتجر الرسمي",
+  "description": "المتجر الرسمي لبراند SHE STORE للملابس الحريمي والسوتات العصرية بسعر المصنع مباشرة في مصر مع خدمة المعاينة قبل الاستلام والدفع عند الاستلام.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
